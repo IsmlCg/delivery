@@ -24,3 +24,13 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+/** For form invalid field for Ionic Angular*/
+.ion-invalid.ion-touched ion-label {
+    color: var(--ion-color-danger);
+}
+
+/** For form invalid field for Angular*/
+input.ng-invalid.ng-touched{
+    border: 1px solid red;
+}

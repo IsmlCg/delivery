@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
+import { DatabaseService } from './firebase/database.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -48,7 +50,8 @@ export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private db: DatabaseService,
   ) {
     this.initializeApp();
   }
@@ -61,9 +64,20 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
+      this.selectedIndex = this.appPages.findIndex( page => 
+        page.title.toLowerCase() === path.toLowerCase()
+        );
     }
+
+    this.db.all().subscribe( data => {
+      this.labels = data.map( e => {
+        return e.payload.doc.data()['name'];
+      })
+      console.log(this.labels);
+
+    });
   }
 }
