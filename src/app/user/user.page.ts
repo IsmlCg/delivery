@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { DatabaseService } from '../firebase/database.service';
@@ -28,6 +29,7 @@ export class UserPage implements OnInit {
   collectionName = 'users'
   constructor( 
   	private db: DatabaseService,
+  	private router: Router,
   	public alertCtrl: AlertController
   	) { 
   	db.setCollectionName( this.collectionName );
@@ -41,7 +43,7 @@ export class UserPage implements OnInit {
   	this.user.createdate = this.getDateTime();
 
     this.db.create( this.user ).then(resp => {
-
+    	this.router.navigate(['/login']);
     }).catch( error => {
         console.log(error);
     });
@@ -61,7 +63,7 @@ export class UserPage implements OnInit {
     async presentConfirm() {
 	  const alert = await this.alertCtrl.create({
       header: 'Confirm!',
-      message: 'Message <strong>text</strong>!!!',
+      message: 'confirm that your details are <strong>correct</strong>!!!',
       buttons: [
         {
           text: 'Cancel',
