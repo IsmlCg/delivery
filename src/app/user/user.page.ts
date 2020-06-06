@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AlertController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 
 import { DatabaseService } from '../firebase/database.service';
@@ -10,11 +10,7 @@ import { DatabaseService } from '../firebase/database.service';
   styleUrls: ['./user.page.scss'],
 })
 export class UserPage implements OnInit {
-  user = {};
-  isSubmitted = false;
-  collectionName = 'users'
-  constructor( private db: DatabaseService ) { 
-  	this.user = {
+  user = {
   		address : 'Santa Cruz Bolivia',
   		enabled : false,
   		email : '',
@@ -28,45 +24,61 @@ export class UserPage implements OnInit {
   		createdate : '',
   		delete : false
   	};
+  isSubmitted = false;
+  collectionName = 'users'
+  constructor( 
+  	private db: DatabaseService,
+  	public alertCtrl: AlertController
+  	) { 
   	db.setCollectionName( this.collectionName );
   }
 
   ngOnInit() {
   }
 
-  logForm(){
-
-  }
-
-  onSubmit(myForm: NgForm) {
-    this.isSubmitted = true;
-    console.log('user');
-    console.log( this.user);
-  }
-
   create( ) {
   	
-  	var DateObj = this.getDateTime();
-  	console.log( DateObj);
-  	// this.user.createdate = DateObj.getFullYear() + '-' + ('0' + (DateObj.getMonth() + 1)).slice(-2) + '-' + ('0' + DateObj.getDate()).slice(-2);
+  	this.user.createdate = this.getDateTime();
 
-  	// console.log(this.user);
-    // this.db.create( this.user ).then(resp => {
+    this.db.create( this.user ).then(resp => {
 
-    // })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    }).catch( error => {
+        console.log(error);
+    });
   }
 
   getDateTime(){
   	var date = new Date();
-	return  date.getFullYear() + " " +
+	return  date.getFullYear() + "-" +
 			("00" + (date.getMonth() + 1)).slice(-2) + "-" +
-			("00" + date.getDate()).slice(-2) + "-" +
+			("00" + date.getDate()).slice(-2) + " " +
 			("00" + date.getHours()).slice(-2) + ":" +
 			("00" + date.getMinutes()).slice(-2) + ":" +
 			("00" + date.getSeconds()).slice(-2);
 
   }
+
+    async presentConfirm() {
+	  const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
+      message: 'Message <strong>text</strong>!!!',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Okay',
+          handler: () => {
+            this.create();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+	}
 }
