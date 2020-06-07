@@ -26,7 +26,7 @@ export class UserPage implements OnInit {
   		delete : false
   	};
   isSubmitted = false;
-  collectionName = 'users'
+  collectionName = 'users';
   constructor( 
   	private db: DatabaseService,
   	private router: Router,
@@ -41,12 +41,22 @@ export class UserPage implements OnInit {
   create( ) {
   	
   	this.user.createdate = this.getDateTime();
+  	
+  	let data ={
+  		username : this.user.username,
+  		password : this.user.password
+  	};
 
     this.db.create( this.user ).then(resp => {
-    	this.router.navigate(['/login']);
+    	this.router.navigate( [ '/login' , { user: JSON.stringify( data ) } ]);
     }).catch( error => {
         console.log(error);
     });
+
+  }
+
+  goLoginPage(){
+  	this.router.navigate( [ '/login' ] );
   }
 
   getDateTime(){

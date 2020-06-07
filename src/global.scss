@@ -34,3 +34,60 @@
 input.ng-invalid.ng-touched{
     border: 1px solid red;
 }
+
+:root {
+  --ion-color-first-opposite: #f7f7f7;
+  --ion-color-first-opposite-rgb: 247,247,247;
+  --ion-color-first-opposite-contrast: #91298e;
+  --ion-color-first-opposite-contrast-rgb: 145,41,142;
+  --ion-color-first-opposite-shade: #d9d9d9;
+  --ion-color-first-opposite-tint: #f8f8f8;
+}
+
+.ion-color-first-opposite {
+  --ion-color-base: var(--ion-color-first-opposite);
+  --ion-color-base-rgb: var(--ion-color-first-opposite-rgb);
+  --ion-color-contrast: var(--ion-color-first-opposite-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-first-opposite-contrast-rgb);
+  --ion-color-shade: var(--ion-color-first-opposite-shade);
+  --ion-color-tint: var(--ion-color-first-opposite-tint);
+}
+
+:root {
+  --ion-color-first: #91298e;
+  --ion-color-first-rgb: 145,41,142;
+  --ion-color-first-contrast: #ffffff;
+  --ion-color-first-contrast-rgb: 255,255,255;
+  --ion-color-first-shade: #80247d;
+  --ion-color-first-tint: #9c3e99;
+}
+
+.ion-color-first {
+  --ion-color-base: var(--ion-color-first);
+  --ion-color-base-rgb: var(--ion-color-first-rgb);
+  --ion-color-contrast: var(--ion-color-first-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-first-contrast-rgb);
+  --ion-color-shade: var(--ion-color-first-shade);
+  --ion-color-tint: var(--ion-color-first-tint);
+}
+
+:root {
+  --ion-color-back: #5d5d5c;
+  --ion-color-back-rgb: 93,93,92;
+  --ion-color-back-contrast: #ffffff;
+  --ion-color-back-contrast-rgb: 255,255,255;
+  --ion-color-back-shade: #525251;
+  --ion-color-back-tint: #6d6d6c;
+}
+
+.ion-color-back {
+  --ion-color-base: var(--ion-color-back);
+  --ion-color-base-rgb: var(--ion-color-back-rgb);
+  --ion-color-contrast: var(--ion-color-back-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-back-contrast-rgb);
+  --ion-color-shade: var(--ion-color-back-shade);
+  --ion-color-tint: var(--ion-color-back-tint);
+}
+/*https://ionicframework.com/docs/layout/css-utilities
+https://ionicframework.com/docs/theming/colors
+*/

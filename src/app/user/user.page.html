@@ -1,9 +1,6 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>User</ion-title>
+<ion-header   >
+  <ion-toolbar color="first-opposite">
+    <ion-title class='ion-text-center ion-text-uppercase'>Register</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -103,9 +100,14 @@
 
 
         <ion-item class="ion-float-right" lines="none">
-          <ion-button type="submit" size="small" [disabled]="!f.valid">Submit</ion-button>
+          <ion-button type="submit" size="small" color='first' [disabled]="!f.valid"> REGISTER </ion-button>
+        </ion-item>
+        <ion-item class="ion-float-left" lines="none">
+          <ion-button  (click)="goLoginPage();" color="back" size="small" [disabled]="!f.valid"> LOG IN </ion-button>
         </ion-item>
       </ion-list>
+
     </form>
+
   </div>
 </ion-content>

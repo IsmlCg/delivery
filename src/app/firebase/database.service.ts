@@ -21,11 +21,19 @@ export class DatabaseService {
   setCollectionName( name ){
   	if ( name ) { 
 	  	this.collectionName =  name;
-  	}
+  	}  
   }
 
   all() {
     return this.firestore.collection(this.collectionName).snapshotChanges();
+  }
+
+  find( username, password ){
+    return this.firestore.collection(
+      this.collectionName,
+      ref => ref.where( "username", "==", username ).
+                 where( "password", "==", password )
+      ).snapshotChanges();
   }
   // Create
   create( data ) {

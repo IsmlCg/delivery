@@ -1,0 +1,48 @@
+<ion-header   >
+  <ion-toolbar color="first-opposite">
+    <ion-title class='ion-text-center ion-text-uppercase'>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <form #f="ngForm" novalidate (ngSubmit)="login()">
+      <ion-list>
+
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input type="text" minlength="3" name="username" required [(ngModel)]="user.username" #usernameCtrl="ngModel"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="!usernameCtrl.valid && usernameCtrl.touched">
+          <ion-text color="danger">
+          	Please enter
+            {{ 4 - (f.controls.username.errors.minlength ? f.controls.username.errors.minlength.actualLength : 0)  }} more
+            characters
+          </ion-text>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" minlength="6" name="password" required [(ngModel)]="user.password" #passwordCtrl="ngModel"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="!passwordCtrl.valid && passwordCtrl.touched">
+          <ion-text color="danger">
+          	Please enter
+            {{ 7 - (f.controls.password.errors.minlength ? f.controls.password.errors.minlength.actualLength : 0)  }} more
+            characters
+          </ion-text>
+        </ion-item>
+
+        <ion-item class="ion-float-right" lines="none">
+          <ion-button type="submit" size="small" color="first" [disabled]="!f.valid">LOG IN</ion-button>
+        </ion-item>
+        <ion-item class="ion-float-left" lines="none">
+          <ion-button  (click)="goToRegisterPage();" color="back" size="small"> SIGN UP </ion-button>
+        </ion-item>
+      </ion-list>
+    </form>
+    
+  </div>
+</ion-content>
