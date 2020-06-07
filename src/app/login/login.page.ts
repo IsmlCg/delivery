@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import { DatabaseService } from '../firebase/database.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginPage implements OnInit {
 	constructor( 
 		private route: ActivatedRoute,
     	private router: Router,
-    	private db: DatabaseService
+    	private db: DatabaseService,
+    	public app : AppComponent
 	) { 
 		db.setCollectionName( this.collectionName );
 	}
@@ -35,13 +37,21 @@ export class LoginPage implements OnInit {
 	      this.id = data.map( e => {
 	        return e.payload.doc.id;
 	      });
-	      console.log(this.id);
+	      if ( this.id.length == 1 ) 
+	      {
+
+	      }
 
 	    });
 	}
 
+
 	goToRegisterPage(){
 	  	this.router.navigate( [ '/user' ] );
+	  	console.log( this.app.labels );
+	  	this.app.labels =[ 'demo','demo1' ];
+	  	this.app.ishidden = false;
     }
 
 }
+

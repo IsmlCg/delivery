@@ -13,6 +13,7 @@ import { DatabaseService } from './firebase/database.service';
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
+  ishidden = true;
   public appPages = [
     {
       title: 'Register',
