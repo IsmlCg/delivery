@@ -13,39 +13,74 @@ import { DatabaseService } from './firebase/database.service';
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
-  ishidden = true;
-  public appPages = [
+
+  collectionName = 'menu';
+
+  public ishidden = true;
+
+  public appPages = [/*
     {
+      id:'',
       title: 'Register',
       url: '/user',
-      icon: 'mail'
+      icon: 'mail',
+      createdate:'',
+      parent_id:'',
+      delete : false
+
     },
     {
+      id:'',
       title: 'Outbox',
       url: '/folder/Outbox',
-      icon: 'paper-plane'
+      icon: 'paperplane',
+      createdate:'',
+      parent_id:'',
+      delete : false
+
     },
     {
+      id:'',
       title: 'Favorites',
       url: '/folder/Favorites',
-      icon: 'heart'
+      icon: 'heart',
+      createdate:'',
+      parent_id:'',
+      delete : false
+
     },
     {
+      id:'',
       title: 'Archived',
       url: '/folder/Archived',
-      icon: 'archive'
+      icon: 'archive',
+      createdate:'',
+      parent_id:'',
+      delete : false
+
     },
     {
+      id:'',
       title: 'Trash',
       url: '/folder/Trash',
-      icon: 'trash'
+      icon: 'trash',
+      createdate:'',
+      parent_id:'',
+      delete : false
+
     },
     {
+      id:'',
       title: 'Spam',
       url: '/folder/Spam',
-      icon: 'warning'
+      icon: 'warning',
+      createdate:'',
+      parent_id:'',
+      delete : false
+
     }
-  ];
+  */];
+
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   constructor(
@@ -55,6 +90,9 @@ export class AppComponent implements OnInit {
     private db: DatabaseService
   ) {
     this.initializeApp();
+    db.setCollectionName( this.collectionName );
+
+    
   }
 
   initializeApp() {
@@ -62,6 +100,7 @@ export class AppComponent implements OnInit {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+
   }
 
   ngOnInit() {
@@ -72,13 +111,52 @@ export class AppComponent implements OnInit {
         page.title.toLowerCase() === path.toLowerCase()
         );
     }
+    
+  }
 
-    this.db.all().subscribe( data => {
-      this.labels = data.map( e => {
-        return e.payload.doc.data()['name'];
+  initMenu( user_id, _db ){
+    
+    let role_ids;
+    _db.setCollectionName( 'users_role' );
+
+    _db.filter( 'user_id', 'in', user_id ).subscribe( data => {
+      role_ids = data.map( e => {
+        return e.payload.doc.data()[ 'role_id' ];
       })
-      console.log(this.labels);
+    });
+
+    let id_role;
+    _db.setCollectionName( 'role' );
+
+    _db.filter( 'id', 'in', role_ids ).subscribe( data => {
+      id_role = data.map( e => {
+        return e.payload.doc.data()[ 'role_id' ];
+      })
+    });
+
+    let menu_ids;
+    _db.setCollectionName( 'menu_role' );
+
+    _db.filter( 'role_id', 'in', id_role ).subscribe( data => {
+      menu_ids = data.map( e => {
+        return e.payload.doc.data()[ 'role_id' ];
+      })
+    });
+
+
+    _db.setCollectionName( 'menu' );
+    _db.filter( 'id', 'in', menu_ids ).subscribe( data => {
+      this.appPages = data.map( e => {
+        return {
+          title : e.payload.doc.data()[ 'title' ],
+          path : e.payload.doc.data()[ 'path' ],
+          url  : e.payload.doc.data()[ 'url' ],
+          parent_id  : e.payload.doc.data()[ 'parent_id' ],
+          icon : e.payload.doc.data()[ 'icon' ],
+        };
+      })
 
     });
   }
+
 }
