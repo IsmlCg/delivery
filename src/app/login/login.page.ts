@@ -30,6 +30,7 @@ export class LoginPage implements OnInit {
 		if ( this.route.snapshot.paramMap.get( 'user' ) ) {
 			this.user = JSON.parse( this.route.snapshot.paramMap.get( 'user' ) );
 		}
+		this.app.ishidden = true;
 	}
 
 	login(){
@@ -48,11 +49,9 @@ export class LoginPage implements OnInit {
 	    });
 	}
 
-	goToRegisterPage(){
-	  	// this.router.navigate( [ '/user' ] );
-	  	console.log( this.id );
-	  	// this.app.labels =[ 'demo','demo1' ];
-	  	// this.app.ishidden = !this.app.ishidden;
+	goToRegisterPage( url ){
+		url = ( url )? url:'/user';
+	  	this.router.navigate( [ url ] );
     }
 
     initMenu( user_id ){
@@ -96,6 +95,8 @@ export class LoginPage implements OnInit {
 				          icon : e.payload.doc.data()[ 'icon' ],
 				        };
 				      })
+				      this.app.ishidden = false;
+				      this.goToRegisterPage( '/folder/Welcome' );
 		    		});
 			    });
 		    });
