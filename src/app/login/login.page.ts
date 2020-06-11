@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
+import { LoadingController } from '@ionic/angular';
 
 import { DatabaseService } from '../firebase/database.service';
 import { AppComponent } from '../app.component';
@@ -17,10 +18,25 @@ export class LoginPage implements OnInit {
   	};
   	id = [];
   	collectionName = 'users'
+
+  	async loading() {
+		this.login();
+		const loading = await this.loadingController.create({
+		  cssClass: 'my-custom-class',
+		  message: 'Please wait...!',
+		  duration: 1000
+		});
+		await loading.present();
+
+		const { role, data } = await loading.onDidDismiss();
+		console.log('Loading dismissed!');
+	}
+
 	constructor( 
 		private route: ActivatedRoute,
     	private router: Router,
     	private db: DatabaseService,
+    	public loadingController: LoadingController,
     	public app : AppComponent
 	) { 
 		db.setCollectionName( this.collectionName );

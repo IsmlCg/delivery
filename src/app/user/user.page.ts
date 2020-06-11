@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
@@ -31,6 +31,7 @@ export class UserPage implements OnInit {
 	constructor( 
 		private db: DatabaseService,
 		private router: Router,
+		public loadingController: LoadingController,
 		public alertCtrl: AlertController
 		) { 
 		db.setCollectionName( this.collectionName );
@@ -53,7 +54,7 @@ export class UserPage implements OnInit {
 
 	}
 
-	goLoginPage( data ){
+	goLoginPage( data = null ){
 		if ( data ) {
 			this.router.navigate( [ '/login' , { user: JSON.stringify( data ) } ]);
 		}else{
@@ -62,6 +63,18 @@ export class UserPage implements OnInit {
 
 	}
 
+	async presentLoading() {
+		const loading = await this.loadingController.create({
+		  cssClass: 'my-custom-class',
+		  message: 'Please wait...!',
+		  duration: 1000
+		});
+		await loading.present();
+
+		const { role, data } = await loading.onDidDismiss();
+		this.goLoginPage();
+		console.log('Loading dismissed!');
+	}
 
     async presentConfirm() {
 	  const alert = await this.alertCtrl.create({
